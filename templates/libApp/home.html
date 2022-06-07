@@ -1,0 +1,149 @@
+{% extends 'libApp/base.html' %}
+{% load static %}
+
+<!---CSS-->
+{% block css_block%}
+    
+    {% endblock %}
+
+<!---Body block-->
+{% block body_block %}
+
+<div class="row">
+    <div class="col-lg-3 col-md-3 mt-4 ">
+        <div class="border">
+            <!--card-->
+            <div class="card-header text-center">
+                <h3 class="cardheader">Add Product</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="" action="/add-book/">
+                    {% csrf_token %}
+                    <div class="form-group">
+
+                        <label> Book Name</label>
+                        <input type="text" name="name" id="name" class="form-control mt-3" value=""
+                            required>
+                        <small id="errorName"></small>
+                    </div> <br>
+                    <div class="form-group">
+
+                        <label> Author</label>
+                        <input type="text" name="author" id="" class="form-control mt-3" value=""
+                            required>
+                        <small id="errorName"></small>
+                    </div> <br>
+                    <div class="form-group">
+
+                        <label> Book Id</label>
+                        <input type="text" name="bookId" id="" class="form-control mt-3" value=""
+                            required>
+                        <small id="errorName"></small>
+                    </div> <br>
+                    <div class="form-group">
+
+                        <label> ISBN</label>
+                        <input type="text" name="isbn" id="" class="form-control mt-3" value=""
+                            required>
+                        <small id="errorName"></small>
+                    </div> <br>
+                    
+                    <br>
+                    <div class="d-grid gap-2 col-4 mx-auto">
+                        <button type="submit" class="btn btn-outline-primary ">Add Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-------Table List-->
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="col-lg-8 mt-2" style="margin-left: auto;">
+
+        <div style="margin-top: 12px;">
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <table class="table table-hover fw-bold border border-bottom-0 text-dark mt-3">
+            <th>ID</th>
+            <th>Book-Name</th>
+            <th>Author</th>
+            <th>Book Id</th>
+            <th>ISBN</th>
+            <th>Update</th>
+            <th>Delete</th>
+            {% for i in bookData reversed %}
+            <tr class="">
+                <td>{{forloop.counter}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.author}}</td>
+                <td>{{i.bookId}}</td>
+                <td>{{i.isbn}}</td>
+                <td><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal-{{i.id}}" data-bs-whatever="@mdo" class="btn btn-success">Update</a> </td>
+                <td><a href="/delete-book/{{i.id}}/"  class="btn btn-danger">Delete</a> </td>
+            </tr>
+
+            <!-----Model for Update -->
+            <div class="modal fade" id="exampleModal-{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Book</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" id="myForm" action="/update-book/{{i.id}}/">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Product Name </label>
+                                    <input type="text" class="form-control" id="" name="name"
+                                        value="{{i.name}}" placeholder="Name " required>
+                                </div>
+                                <div class="mb-3">
+                                    <label> Author</label>
+                                    <input type="text" name="author" id="" class="form-control mt-3" value="{{i.author}}"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label> Book Id</label>
+                                    <input type="text" name="bookId" id="" class="form-control mt-3" value="{{i.bookId}}"
+                                        required >
+                                </div>
+                                <div class="mb-3">
+                                    <label> Book ISBN</label>
+                                    <input type="text" name="isbn" id="" class="form-control mt-3" value="{{i.isbn}}"
+                                        required>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!----Wnd update Model -->
+            {% endfor %}
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+<!----JS Block-->
+{% block js_block %}
+
+{% endblock %}
